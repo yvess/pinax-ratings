@@ -5,7 +5,10 @@ from django.views.decorators.http import require_POST
 
 from django.contrib.contenttypes.models import ContentType
 
-from account.decorators import login_required
+try:
+    from account.decorators import login_required
+except ImportError:
+    from django.contrib.auth.decorators import login_required
 
 from .categories import category_value
 from .models import Rating
