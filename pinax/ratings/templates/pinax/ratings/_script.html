@@ -42,7 +42,7 @@
         // Assumptions:
         // 1. you have a div with the id of "user_rating" where you want the stars to go
         // 2. you have a container with the class .overall_rating where the new average rating will go
-        $("#user_rating").raty({
+        $({% if category %}"#user_rating-{{ category }}"{% else %}"#user_rating"{% endif %}).raty({
             score: function() {
                 return $(this).attr('data-score');
             },
