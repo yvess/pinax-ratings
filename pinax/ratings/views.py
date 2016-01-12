@@ -32,7 +32,6 @@ NUM_OF_RATINGS = getattr(settings, "PINAX_RATINGS_NUM_OF_RATINGS", 5)
 
 
 @require_POST
-@login_required
 def rate(request, content_type_id, object_id):
     ct = get_object_or_404(ContentType, pk=content_type_id)
     obj = get_object_or_404(ct.model_class(), pk=object_id)
