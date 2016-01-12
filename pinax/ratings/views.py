@@ -1,5 +1,19 @@
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import HttpResponseForbidden
+try:  # JsonResponse is only available in Django > 1.7
+    from django.http import JsonResponse
+except ImportError:
+    from django.utils import simplejson
+    from django.http import HttpResponse
+
+    class JsonResponse(HttpResponse):
+        def __init__(self, content, mimetype='application/json',
+                     status=None, content_type=None):
+            super(JsonResponse, self).__init__(
+                content=simplejson.dumps(content), mimetype=mimetype,
+                status=status, content_type=content_type,
+            )
+
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 
