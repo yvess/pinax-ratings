@@ -53,11 +53,10 @@ def rate(request, content_type_id, object_id):
         "category": category
     }
 
-    data["overall_rating"] = Rating.update(
+    data["overall_rating"] = str(Rating.update(
         rating_object=obj,
         user=request.user,
         category=cat_choice,
-        rating=rating_input
-    )
+    ))
 
     return JsonResponse(data)
