@@ -46,6 +46,9 @@
             score: function() {
                 return $(this).attr('data-score');
             },
+            {% if readonly %}
+                readOnly: true,
+            {% else %}
             click: function(score, evt) {
                 var current_rating = 0;
                 if (score != null) {
@@ -76,6 +79,8 @@
                     }
                 });
             },
+            {% endif %}
+            cancel: true,
             path: "{{ STATIC_URL }}pinax/ratings/img/"
             {{ RATINGS_RATY_CONFIG|safe }}
         });
