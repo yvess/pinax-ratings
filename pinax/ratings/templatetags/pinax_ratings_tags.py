@@ -158,6 +158,7 @@ def rating_post_url(user, obj):
 def user_rating_js(user, obj, category=None):
     post_url = rating_post_url(user, obj)
     rating = user_rating_value(user, obj, category)
+    RATINGS_RATY_CONFIG = ", %s" % getattr(settings, "PINAX_RATINGS_RATY_CONFIG", 'cancel: true')
 
     return {
         "obj": obj,
@@ -165,6 +166,7 @@ def user_rating_js(user, obj, category=None):
         "category": category,
         "the_user_rating": rating,
         "STATIC_URL": settings.STATIC_URL,
+        "RATINGS_RATY_CONFIG": RATINGS_RATY_CONFIG,
     }
 
 
