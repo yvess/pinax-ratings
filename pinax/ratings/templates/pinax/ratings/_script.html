@@ -77,7 +77,7 @@
                 });
             },
             path: "{{ STATIC_URL }}pinax/ratings/img/"
-            {{ RATINGS_RATY_CONFIG }}
+            {{ RATINGS_RATY_CONFIG|safe }}
         });
     });
 </script>
