@@ -31,7 +31,6 @@ from .models import Rating
 NUM_OF_RATINGS = getattr(settings, "PINAX_RATINGS_NUM_OF_RATINGS", 5)
 RATINGS_USER = getattr(settings, "PINAX_RATINGS_USER", None)
 RATINGS_RATING_OBJECT = getattr(settings, "PINAX_RATINGS_RATING_OBJECT", None)
-RATINGS_AUTO_OVERALL_UPDATE = getattr(settings, "PINAX_RATINGS_AUTO_OVERALL_UPDATE", True)
 
 
 @require_POST
@@ -62,12 +61,11 @@ def rate(request, content_type_id, object_id):
     user = getattr(obj, RATINGS_USER) if RATINGS_USER else request.user
     rating_object = getattr(obj, RATINGS_RATING_OBJECT) if RATINGS_RATING_OBJECT else obj
 
-    if RATINGS_AUTO_OVERALL_UPDATE:
-        data["overall_rating"] = str(Rating.update(
-            rating_object=rating_object,
-            user=user,
-            category=cat_choice,
-            rating=rating_input,
-        ))
+    data["overall_rating"] = str(Rating.update(
+        rating_object=rating_object,
+        user=user,
+        category=cat_choice,
+        rating=rating_input,
+    ))
 
     return JsonResponse(data)

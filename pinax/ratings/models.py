@@ -17,6 +17,7 @@ from .categories import RATING_CATEGORY_CHOICES
 from .managers import OverallRatingManager
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
+RATINGS_AUTO_OVERALL_UPDATE = getattr(settings, "PINAX_RATINGS_AUTO_OVERALL_UPDATE", True)
 
 
 class OverallRating(models.Model):
@@ -82,16 +83,19 @@ class Rating(models.Model):
                 category=category,
                 rating=rating
             )
-        overall, _ = OverallRating.objects.get_or_create(
-            object_id=rating_object.pk,
-            content_type=ct,
-            category=category
-        )
-        rating_obj.overall_rating = overall
-        rating_obj.rating = rating
-        rating_obj.save()
-        overall.update()
-        return overall.rating
+        if RATINGS_AUTO_OVERALL_UPDATE:
+            overall, _ = OverallRating.objects.get_or_create(
+                object_id=rating_object.pk,
+                content_type=ct,
+                category=category
+            )
+            rating_obj.overall_rating = overall
+            rating_obj.rating = rating
+            rating_obj.save()
+            overall.update()
+            return overall.rating
+        else:
+            return 0
 
     class Meta:
         unique_together = [
